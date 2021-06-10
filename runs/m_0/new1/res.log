@@ -1,0 +1,59 @@
+2021-01-06 18:23:58,236 - __main__ - INFO -   + Number of params: 21332641
+2021-01-06 18:23:59,800 - __main__ - INFO - Begin training on thyroid dataset.
+2021-01-06 18:24:37,804 - __main__ - INFO - Train Epoch: 1 	TrainLoss: 1.4980 	TrainAcc: 63.78% 
+2021-01-06 18:24:41,414 - __main__ - INFO - TestLoss: 1.0898 	TestAcc: 74.64% 	acc0:182 	acc1:48 	acc2:21 	acc3:23 	acc4:135	acck2:90.33%	acck3:95.80%	
+2021-01-06 18:24:42,253 - __main__ - INFO - lr:9.850000000000001e-05
+2021-01-06 18:25:22,310 - __main__ - INFO - Train Epoch: 2 	TrainLoss: 0.9820 	TrainAcc: 79.75% 
+2021-01-06 18:25:26,252 - __main__ - INFO - TestLoss: 0.8458 	TestAcc: 81.75% 	acc0:197 	acc1:53 	acc2:14 	acc3:47 	acc4:137	acck2:93.61%	acck3:96.90%	
+2021-01-06 18:25:27,220 - __main__ - INFO - lr:9.70225e-05
+2021-01-06 18:26:09,434 - __main__ - INFO - Train Epoch: 3 	TrainLoss: 0.6949 	TrainAcc: 88.05% 
+2021-01-06 18:26:12,997 - __main__ - INFO - TestLoss: 0.7197 	TestAcc: 85.58% 	acc0:218 	acc1:49 	acc2:16 	acc3:50 	acc4:136	acck2:93.07%	acck3:97.26%	
+2021-01-06 18:26:13,858 - __main__ - INFO - lr:9.55671625e-05
+2021-01-06 18:26:51,201 - __main__ - INFO - Train Epoch: 4 	TrainLoss: 0.5086 	TrainAcc: 91.62% 
+2021-01-06 18:26:54,754 - __main__ - INFO - TestLoss: 0.6848 	TestAcc: 84.85% 	acc0:216 	acc1:48 	acc2:15 	acc3:50 	acc4:136	acck2:92.52%	acck3:97.08%	
+2021-01-06 18:26:55,054 - __main__ - INFO - lr:9.41336550625e-05
+2021-01-06 18:27:31,695 - __main__ - INFO - Train Epoch: 5 	TrainLoss: 0.3965 	TrainAcc: 93.67% 
+2021-01-06 18:27:35,222 - __main__ - INFO - TestLoss: 0.7494 	TestAcc: 85.95% 	acc0:214 	acc1:51 	acc2:18 	acc3:54 	acc4:134	acck2:92.70%	acck3:96.35%	
+2021-01-06 18:27:35,595 - __main__ - INFO - lr:9.272165023656249e-05
+2021-01-06 18:28:11,565 - __main__ - INFO - Train Epoch: 6 	TrainLoss: 0.3416 	TrainAcc: 94.92% 
+2021-01-06 18:28:15,133 - __main__ - INFO - TestLoss: 0.6561 	TestAcc: 84.31% 	acc0:199 	acc1:49 	acc2:18 	acc3:60 	acc4:136	acck2:94.71%	acck3:98.36%	
+2021-01-06 18:28:15,733 - __main__ - INFO - lr:9.133082548301405e-05
+2021-01-06 18:28:51,210 - __main__ - INFO - Train Epoch: 7 	TrainLoss: 0.2932 	TrainAcc: 94.90% 
+2021-01-06 18:28:54,813 - __main__ - INFO - TestLoss: 0.6534 	TestAcc: 85.58% 	acc0:213 	acc1:48 	acc2:16 	acc3:61 	acc4:131	acck2:93.07%	acck3:97.08%	
+2021-01-06 18:28:55,289 - __main__ - INFO - lr:8.996086310076883e-05
+2021-01-06 18:29:30,152 - __main__ - INFO - Train Epoch: 8 	TrainLoss: 0.2509 	TrainAcc: 95.80% 
+2021-01-06 18:29:33,731 - __main__ - INFO - TestLoss: 0.6698 	TestAcc: 86.31% 	acc0:222 	acc1:47 	acc2:17 	acc3:57 	acc4:130	acck2:95.26%	acck3:97.45%	
+2021-01-06 18:29:34,075 - __main__ - INFO - lr:8.86114501542573e-05
+2021-01-06 18:30:09,213 - __main__ - INFO - Train Epoch: 9 	TrainLoss: 0.2284 	TrainAcc: 96.35% 
+2021-01-06 18:30:12,822 - __main__ - INFO - TestLoss: 0.6793 	TestAcc: 85.04% 	acc0:203 	acc1:51 	acc2:17 	acc3:56 	acc4:139	acck2:93.80%	acck3:97.63%	
+2021-01-06 18:30:13,275 - __main__ - INFO - lr:8.728227840194345e-05
+2021-01-06 18:30:48,685 - __main__ - INFO - Train Epoch: 10 	TrainLoss: 0.2364 	TrainAcc: 95.88% 
+2021-01-06 18:30:52,261 - __main__ - INFO - TestLoss: 0.7821 	TestAcc: 85.04% 	acc0:213 	acc1:46 	acc2:18 	acc3:56 	acc4:133	acck2:93.61%	acck3:97.08%	
+2021-01-06 18:30:52,358 - __main__ - INFO - lr:8.59730442259143e-05
+2021-01-06 18:31:27,767 - __main__ - INFO - Train Epoch: 11 	TrainLoss: 0.2056 	TrainAcc: 96.25% 
+2021-01-06 18:31:31,807 - __main__ - INFO - TestLoss: 0.6299 	TestAcc: 86.86% 	acc0:215 	acc1:48 	acc2:15 	acc3:56 	acc4:142	acck2:94.53%	acck3:97.99%	
+2021-01-06 18:31:32,869 - __main__ - INFO - lr:8.468344856252559e-05
+2021-01-06 18:32:08,434 - __main__ - INFO - Train Epoch: 12 	TrainLoss: 0.1960 	TrainAcc: 96.47% 
+2021-01-06 18:32:12,131 - __main__ - INFO - TestLoss: 0.6832 	TestAcc: 84.85% 	acc0:206 	acc1:49 	acc2:20 	acc3:49 	acc4:141	acck2:93.80%	acck3:97.63%	
+2021-01-06 18:32:12,313 - __main__ - INFO - lr:8.341319683408771e-05
+2021-01-06 18:32:47,737 - __main__ - INFO - Train Epoch: 13 	TrainLoss: 0.1784 	TrainAcc: 96.67% 
+2021-01-06 18:32:51,263 - __main__ - INFO - TestLoss: 0.7599 	TestAcc: 83.39% 	acc0:206 	acc1:50 	acc2:14 	acc3:52 	acc4:135	acck2:93.07%	acck3:97.99%	
+2021-01-06 18:32:51,339 - __main__ - INFO - lr:8.216199888157639e-05
+2021-01-06 18:33:26,831 - __main__ - INFO - Train Epoch: 14 	TrainLoss: 0.1803 	TrainAcc: 96.35% 
+2021-01-06 18:33:30,490 - __main__ - INFO - TestLoss: 0.6820 	TestAcc: 85.58% 	acc0:211 	acc1:51 	acc2:17 	acc3:49 	acc4:141	acck2:94.89%	acck3:97.99%	
+2021-01-06 18:33:30,609 - __main__ - INFO - lr:8.092956889835274e-05
+2021-01-06 18:34:06,919 - __main__ - INFO - Train Epoch: 15 	TrainLoss: 0.1661 	TrainAcc: 96.70% 
+2021-01-06 18:34:10,677 - __main__ - INFO - TestLoss: 0.6990 	TestAcc: 85.95% 	acc0:211 	acc1:48 	acc2:17 	acc3:51 	acc4:144	acck2:93.98%	acck3:98.18%	
+2021-01-06 18:34:10,880 - __main__ - INFO - lr:7.971562536487744e-05
+2021-01-06 18:34:47,733 - __main__ - INFO - Train Epoch: 16 	TrainLoss: 0.1549 	TrainAcc: 97.08% 
+2021-01-06 18:34:51,671 - __main__ - INFO - TestLoss: 0.6471 	TestAcc: 88.87% 	acc0:222 	acc1:49 	acc2:14 	acc3:60 	acc4:142	acck2:96.53%	acck3:97.99%	
+2021-01-06 18:34:52,186 - __main__ - INFO - lr:7.851989098440428e-05
+2021-01-06 18:35:27,734 - __main__ - INFO - Train Epoch: 17 	TrainLoss: 0.1394 	TrainAcc: 97.47% 
+2021-01-06 18:35:31,427 - __main__ - INFO - TestLoss: 0.6085 	TestAcc: 88.14% 	acc0:219 	acc1:51 	acc2:17 	acc3:52 	acc4:144	acck2:96.17%	acck3:98.54%	
+2021-01-06 18:35:31,780 - __main__ - INFO - lr:7.734209261963822e-05
+2021-01-06 18:36:07,532 - __main__ - INFO - Train Epoch: 18 	TrainLoss: 0.1378 	TrainAcc: 97.42% 
+2021-01-06 18:36:11,189 - __main__ - INFO - TestLoss: 0.7630 	TestAcc: 87.41% 	acc0:225 	acc1:47 	acc2:11 	acc3:55 	acc4:141	acck2:94.34%	acck3:97.81%	
+2021-01-06 18:36:11,383 - __main__ - INFO - lr:7.618196123034365e-05
+2021-01-06 18:36:48,288 - __main__ - INFO - Train Epoch: 19 	TrainLoss: 0.1952 	TrainAcc: 95.97% 
+2021-01-06 18:36:52,164 - __main__ - INFO - TestLoss: 0.8940 	TestAcc: 85.04% 	acc0:219 	acc1:47 	acc2:13 	acc3:55 	acc4:132	acck2:93.80%	acck3:97.81%	
+2021-01-06 18:36:52,360 - __main__ - INFO - lr:7.503923181188849e-05
