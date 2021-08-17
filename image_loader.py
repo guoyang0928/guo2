@@ -68,8 +68,6 @@ class TripletGenerator(object):
             #print("dd",self.category_dict[0][1])
 
             while True:
-
-
                 a = random.randint(0, len(self.category_dict) - 1)
                 #print(a)
                 if int(self.category_dict[a][1]) == cate_sub:
@@ -84,8 +82,14 @@ class TripletGenerator(object):
             #print(c)
 
             while True:
-            #     if cate_sub == 1:
-            #         cate_sub1=random.choice([0,2])
+                # if cate_sub == 2:
+                #     cate_sub1 = 0
+                # elif cate_sub == 1:
+                #     cate_sub1 = 0
+                # elif cate_sub == 0:
+                #     cate_sub1 =random.choice([1,2])
+                if cate_sub == 2:
+                    cate_sub1=random.choice([0,3])
             #     elif cate_sub == 0:
             #         cate_sub1=1
             #     elif cate_sub == 2:
@@ -94,8 +98,8 @@ class TripletGenerator(object):
             #         cate_sub1 = random.choice([2,4])
             #     elif cate_sub == 4:
             #         cate_sub1 = 3
-                # else:
-                cate_sub1 = random.choice([0,1,2,3,4])
+                else:
+                    cate_sub1 = random.choice([0,1,3,4])
                 # print("cate_sub1:",cate_sub1)
                 if cate_sub1 != cate_sub:
                     break

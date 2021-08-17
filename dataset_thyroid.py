@@ -10,6 +10,7 @@ import shutil
 
 # INPUT_SIZE = 224
 class Thyroid():
+
     def __init__(self, root, name1,is_train,  data_len=None):
         # root文件夹下必须有annotations.txt,train_test_split.txt
         # annotation里边写了image_name，label;     train_test_split.txt写了image_name,is_train;
@@ -26,7 +27,7 @@ class Thyroid():
             # if line[:-1].split(' ')[0] == '000624.jpg':
             #     print(line)
             # temp = int(line[:-1].split(' ')[1])
-            # if  temp ==4:
+            # if temp == 4:
             #     list.append(line[:-1].split(' ')[0])
             #     label_list.append(int(line[:-1].split(' ')[1]))
             #list.append(line[:-1].split(' ')[0])  # line[:-1]去除文本最后一个字符（换行符）后剩下的部分 以空格为分隔符保留最后一段
@@ -61,7 +62,7 @@ class Thyroid():
     def __getitem__(self, index): #迭代读取
         if self.is_train:
             img_name=self.list[index]
-            print('----------------------',img_name)
+            # print('----------------------',img_name)
             img, target = self.train_img[index], self.train_label[index]
             #print(img.shape)
             # if len(img.shape) == 2:
@@ -72,20 +73,17 @@ class Thyroid():
             #img = transforms.Resize((224), Image.BICUBIC)(img)
             #img = transforms.CenterCrop(224)(img)
             # img = transforms.RandomCrop(INPUT_SIZE)(img)
-            # img = transforms.RandomHorizontalFlip(p=0.5)(img)
-            # img = transforms.RandomVerticalFlip(p=0.5)(img)
-
-
-
-
-
+            img = transforms.RandomHorizontalFlip(p=0.5)(img)
+            img = transforms.RandomVerticalFlip(p=0.5)(img)
 
             img = transforms.ToTensor()(img)
             img = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])(img)
 
         else:
+
             img_name=self.list[index]
-            print('----------------------',img_name)
+
+
             img, target = self.test_img[index], self.test_label[index]
             # if len(img.shape) == 2:
             #     img = np.stack([img] * 3, 2)
@@ -99,7 +97,7 @@ class Thyroid():
             img = transforms.ToTensor()(img)                            # 将PIL Image或者 ndarray 转换为tensor，并且归一化至[0-1]
             img = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])(img)   #对数据按通道进行标准化，即先减均值，再除以标准差，注意是 hwc
 
-        return img, target
+        return img, target,img_name
 
     def __len__(self):
         if self.is_train:

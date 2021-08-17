@@ -37,24 +37,6 @@ def norm1(X):
     return X
 
 
-# class Tripletnet(nn.Module):
-#     def __init__(self, embeddingnet):
-#         super(Tripletnet, self).__init__()
-#         self.embeddingnet = embeddingnet
-#
-#     def forward(self, x, y, z):
-#         """ x: Anchor image,
-#             y: Distant (negative) image,
-#             z: Close (positive) image,
-#             c: Integer indicating according to which attribute images are compared"""
-#         embedded_x,t1 = self.embeddingnet(x)
-#         embedded_y,t2 = self.embeddingnet(y)
-#         embedded_z,t3 = self.embeddingnet(z)
-#         sim_a = torch.sum(embedded_x * embedded_y, dim=1)
-#         #print(sim_a)
-#         sim_b = torch.sum(embedded_x * embedded_z, dim=1)
-#
-#         return embedded_x, embedded_y, embedded_z
 
 class DoubleNet(nn.Module):
     def __init__(self, embeddingnet):

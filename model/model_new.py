@@ -6,8 +6,7 @@ import torchvision
 from draw_features import draw_features,apply_heatmap
 from torch.nn import Parameter
 from model import res
-
-
+import matplotlib.pyplot as plt
 def norm(X):
     """L2-normalize columns of X
     """
@@ -501,15 +500,14 @@ class Net(nn.Module):
         # x_l4 = self.fc_l4(x_l4)
 
         x_l = x_l2+x_l3+x_l4
-        #x_l = x_l2+x_l3
-        print("e",x_l.shape)
+
+
+
         x_l = x_l.view(x_l.size(0), x_l.size(1) * x_l.size(2))
         x_l = self.fc_l(x_l)
         #print(x_l.shape)
         x_l = l2norm1(x_l)
-
-
-
+        print(x_l.shape)
         copy_x = x
         copy_x = self.conv_1(copy_x)
         # print("w",copy_x.shape)
@@ -519,7 +517,7 @@ class Net(nn.Module):
         # print("w", copy_x.shape)
         # #print(copy_x)
         copy_x=copy_x.view(copy_x.size(0),copy_x.size(1))
-        #print(copy_x.shape)
+        print(copy_x.shape)
         # #print(copy_x)
         copy_x = l2norm1(copy_x)
 
@@ -538,14 +536,13 @@ class Net(nn.Module):
         t4 = process(fea4, v4)
         #
         fea = t2+t3+t4
+        print(fea.shape)
 
 
         fea = l2norm1(fea)
 
         fea = torch.cat((copy_x,fea,x_l),dim=1)
-        #fea = x_l
-        #fea = l2norm1(fea)
-        #print(fea.shape)
+        print(fea.shape)
 
 
         # new

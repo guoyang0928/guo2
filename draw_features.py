@@ -116,12 +116,13 @@ def draw_features(x,origi_img,i):
 
     # plt.savefig('/home/stellla/Desktop/3760_2pic/' + str(i) + ".png")
     cv2.imshow('ori_image', ori_img)
+    # plt.show('ori_image', ori_img)
     #path = "C:\\Users\\guoyang\\Desktop\\label_0_pic\\" +str(i)
     cv2.imwrite("C:\\Users\\guoyang\\Desktop\\fig\\" + str(i) + ".png", ori_img,
-                [int(cv2.IMWRITE_JPEG_QUALITY), 100])
+                 [int(cv2.IMWRITE_JPEG_QUALITY), 100])
 
     #cv2.imshow('ori_image', ori_img)  # BGR moshi
     #cv2.imwrite('/home/stellla/Desktop/test/' + 'g_1' + ".png", ori_img, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
 
-    cv2.waitKey(1)
+    cv2.waitKey(20)
     return ori_img,a,img

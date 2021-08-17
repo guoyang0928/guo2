@@ -3,7 +3,7 @@ import torch
 import torch.nn.functional as F
 import numpy as np
 import torchvision
-#from draw_features import draw_features
+from draw_features import draw_features
 from torch.nn import Parameter
 from model import res
 
@@ -59,7 +59,65 @@ def norm1(X):
     return X
 
 
+class GaussianBlur(nn.Module):
+    def __init__(self):
+        super(GaussianBlur, self).__init__()
+        # kernel_up = [[[-1],[1]] for _ in range(10)]
+        # #print(kernel_up.shape)
+        # kernel_bottom = [[[1],[-1]] for _ in range(10)]
+        # kernel_left = [[[1,-1]] for _ in range(10)]
+        #
+        #
+        # kernel_right = [[[-1, 1]] for _ in range(10)]
+        kernel_up = [[-1], [1]]
+        # print(kernel_up.shape)
+        kernel_bottom = [[1], [-1]]
+        kernel_left = [[1, -1]]
 
+        kernel_right = [[-1, 1]]
+
+        kernel_up = torch.FloatTensor(kernel_up).unsqueeze(0).unsqueeze(0)
+        # print(kernel_up.shape)
+        # print(kernel_up)
+        kernel_bottom = torch.FloatTensor(kernel_bottom).unsqueeze(0).unsqueeze(0)
+        kernel_left = torch.FloatTensor(kernel_left).unsqueeze(0).unsqueeze(0)
+        # print(kernel_left.shape)
+        kernel_right = torch.FloatTensor(kernel_right).unsqueeze(0).unsqueeze(0)
+
+        self.weight_up = nn.Parameter(data=kernel_up, requires_grad=False)
+        self.weight_bottom = nn.Parameter(data=kernel_bottom, requires_grad=False)
+        self.weight_left = nn.Parameter(data=kernel_left, requires_grad=False)
+        self.weight_right = nn.Parameter(data=kernel_right, requires_grad=False)
+
+    def forward(self, x):
+        x = x[:, 0]  # 只取了第一个通道做梯度 写的有问题  但先融合各通道效果一般
+
+        x = x.unsqueeze(1)
+        # print("x", x.shape)
+
+        x1 = F.conv2d(x, self.weight_up, padding=0)
+        pad = nn.ZeroPad2d(padding=(0, 0, 0, 1))
+        x1 = pad(x1)
+        x1 = x1.squeeze(dim=1)
+
+        x2 = F.conv2d(x, self.weight_bottom, padding=0)
+        pad = nn.ZeroPad2d(padding=(0, 0, 1, 0))
+        x2 = pad(x2)
+        x2 = x2.squeeze(dim=1)
+
+        x3 = F.conv2d(x, self.weight_left, padding=0)
+        pad = nn.ZeroPad2d(padding=(1, 0, 0, 0))
+        x3 = pad(x3)
+        x3 = x3.squeeze(dim=1)
+
+        x4 = F.conv2d(x, self.weight_right, padding=0)
+        pad = nn.ZeroPad2d(padding=(0, 1, 0, 0))
+        x4 = pad(x4)
+        x4 = x4.squeeze(dim=1)
+        res = torch.sqrt(x1 ** 2 + x2 ** 2 + x3 ** 2 + x4 ** 2)
+        # print(res.shape)
+
+        return res
 class DoubleNet(nn.Module):
     def __init__(self, embeddingnet):
         super(DoubleNet, self).__init__()
@@ -81,7 +139,8 @@ class DoubleNet(nn.Module):
         #self.out1 = nn.Conv2d(64, 1, kernel_size=1)  #1*1卷积
         # output = (1,1)
         self.pool = nn.AdaptiveAvgPool2d((1, 1))
-    def forward(self, x, y, label_x,label_y):
+    # def forward(self, x, y, label_x,label_y):
+    def forward(self, x, y):
         """ x: Anchor image,
             y: Distant (negative) image,
             fea t
@@ -262,23 +321,9 @@ class Net(nn.Module):
         self.features2 = model.layer2
         self.features3 = model.layer3
         self.features4 = model.layer4
-        # self.features = nn.Sequential(
-        #     model.conv1,
-        #     model.bn1,
-        #     model.relu,
-        #     model.maxpool,
-        #
-        #     # model.pre,
-        #
-        #     model.layer1,
-        #
-        #     model.layer2,
-        #
-        #     model.layer3,
-        #     model.layer4
-        #
-        #     # model.layer3#new
-        # )
+        self.gas = GaussianBlur()
+        self.relu = nn.ReLU()
+
         self.conv = Conv1(in_planes=512, places=10, size=3,stride=1,padding=1)
         self.conv_new = Conv1_N(in_planes=512, places=10, size=3, stride=1, padding=1)
         self.conv_s = Conv1_N(in_planes=10, places=10, size=3, stride=1, padding=1)
@@ -291,6 +336,10 @@ class Net(nn.Module):
         self.conv_s3 = Conv1_N(in_planes=256, places=10, size=3, stride=1, padding=1)
 
 
+        # self.fc1 = nn.Linear(4*4*10,128)
+        # self.fc2 = nn.Linear(128,64)
+        # self.fc3 = nn.Linear(64,5)
+
 
 
         self.softmax = nn.Softmax(dim=2)
@@ -298,10 +347,15 @@ class Net(nn.Module):
         self.w2 = Parameter(torch.tensor(1).float())
         self.w3 = Parameter(torch.tensor(1).float())
         #self.s=nn.Sigmoid()
+        length = 3
+        self.weight = nn.Parameter(torch.ones(length))
 
-        self.fc_1 = nn.Linear(20,64)
+        self.fc_11 = nn.Linear(30,64)
         self.fc_2 = nn.Linear(64, 5)
         self.fc_add = nn.Linear(50,10)
+        self.fc_l = nn.Linear(7 * 7, 10)
+        self.pool1 = nn.MaxPool2d(kernel_size=(4, 4))
+        self.pool2 = nn.MaxPool2d(kernel_size=(2,2))
 
         #self.soft = AMSoftmax(64,5)
         self.soft = nn.Softmax(dim=1)
@@ -320,6 +374,7 @@ class Net(nn.Module):
         return x_global
 
     def forward(self, x):
+        ori = x
         x = self.features0(x)   # 16 64 56 56
 
         x = self.features1(x)   # 16 64 56 56
@@ -328,10 +383,27 @@ class Net(nn.Module):
         x = self.features2(x)   # 16 128 28 28
         #print(x.shape)
         x_s2 = self.conv_s2(x)
+        x_s2_1 = self.relu(x_s2)
+        print(x_s2_1.shape)
+        x_l2 = self.gas(x_s2_1)
+        # for i in range(1):
+        #     a = x_l2[i, :, :]
+        #     a = a.squeeze()
+        #
+        #     draw_features(a.cpu().data.numpy(), ori,9)
+        x_l2 = self.pool1(x_l2)
 
         x = self.features3(x)   # 16 256 14 14
         #print(x.shape)
         x_s3 = self.conv_s3(x)
+        x_s3_1 = self.relu(x_s3)
+        x_l3 = self.gas(x_s3_1)
+        # for i in range(1):
+        #     a = x_l3[i, :, :]
+        #     a = a.squeeze()
+        #
+        #     draw_features(a.cpu().data.numpy(), ori,10)
+        x_l3 = self.pool2(x_l3)
 
         x = self.features4(x)   # 16 512 7 7
         #print(x.shape)
@@ -340,6 +412,26 @@ class Net(nn.Module):
 
         x = self.conv_new(x)
         x_s4 = self.conv_s(x)
+
+        x_s4_1 = self.relu(x_s4)
+        x_l4 = self.gas(x_s4_1)
+        # for i in range(1):
+        #     a = x_l4[i, :, :]
+        #     a = a.squeeze()
+        #
+        #     draw_features(a.cpu().data.numpy(), ori,11)
+
+        x_l = x_l2+x_l3+x_l4
+        print(ori.shape)
+        # for i in range(1):
+        #     a = x_l[i, :, :]
+        #     a = a.squeeze()
+        #
+        #     draw_features(a.cpu().data.numpy(), ori,12)
+        print(x_l.shape)
+        x_l = x_l.view(x_l.size(0), x_l.size(1) * x_l.size(2))
+        x_l = self.fc_l(x_l)
+        x_l = l2norm1(x_l)
 
 
 
@@ -357,11 +449,7 @@ class Net(nn.Module):
         copy_x = l2norm1(copy_x)
         # print(copy_x)
 
-        # for i in range(10):
-        #     a = x[0, i, :, :]
-        #     a = a.squeeze()
-        #
-        #     draw_features(a.cpu().data.numpy(), i)
+
         # for i in range(10):
         #     a = x[0, i, :, :]
         #     a = a.squeeze()
@@ -377,34 +465,13 @@ class Net(nn.Module):
         (fea2, v2) = x_global2.symeig(eigenvectors=True)
         (fea3, v3) = x_global3.symeig(eigenvectors=True)
         (fea4, v4) = x_global4.symeig(eigenvectors=True)
-        t2 = process(fea2,v2)
+        t2 = process(fea2, v2)
         t3 = process(fea3, v3)
         t4 = process(fea4, v4)
 
-
-        #(fea2, v2) = x_local.symeig(eigenvectors=True)
-
-
-
-        #v1 = v1[:, 5:, :]
-        # v2 = v2[:,5:,:]
-        #
-        #fea1 = fea1[:, 5:]
-        # fea2 = fea2[:, 5:]
-        # # print('fea1', fea1.shape)
-        # # print(v1.shape)
-        #fea1 = fea1.unsqueeze(dim=1)
-        #
-        # fea2 = fea2.unsqueeze(dim=1)
-        #t1 = torch.matmul(fea1, v1)
-        # t2 = torch.matmul(fea2, v2)
-        #t1 = t1.squeeze()
-
-        #t1 = norm1(t1)
-        # t2 = t2.squeeze()
-
-
-        fea = t2+t3+t4
+        # fea = t2+t3+t4
+        weight = F.softmax(self.weight, 0)  # softmax 保证每个参数大于等于0 小于等于1
+        fea = weight[0] * t2 + weight[1] * t3 + weight[2] * t4
         fea = self.fc_add(fea)
 
         #print("t2",fea.shape)
@@ -415,7 +482,7 @@ class Net(nn.Module):
         #print(self.w1)
         #print("fea1", self.w1*fea1)
         #fea_t = self.w1*t1 +self.w2 *t2
-        fea = torch.cat((copy_x,fea),dim=1)
+        fea = torch.cat((copy_x,fea,x_l),dim=1)
         #fea = l2norm1(fea)
         #print(fea.shape)
 
@@ -424,7 +491,7 @@ class Net(nn.Module):
         # x = x.view(x.size(0), -1)
         # fea = self.fc1(x)
 
-        res = self.fc_1(fea)
+        res = self.fc_11(fea)
 
         res = self.fc_2(res)
 
